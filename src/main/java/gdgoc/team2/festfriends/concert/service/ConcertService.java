@@ -45,6 +45,8 @@ public class ConcertService {
                         .name(name)
                         .location(location)
                         .period(period)
+                        .likes(0L)
+                        .searchFriends(0L)
                         .build();
 
                 concertRepository.save(concert);
@@ -54,8 +56,7 @@ public class ConcertService {
         }
     }
 
-    public ApiResponse<List<ConcertResponse>> getAllConcerts(){
-        ApiResponse<List<ConcertResponse>> apiResponse = new ApiResponse<>();
+    public List<ConcertResponse> getAllConcerts(){
         List<Concert> concerts = concertRepository.findAll();
         List<ConcertResponse> concertResponses = new ArrayList<>();
 
@@ -65,15 +66,15 @@ public class ConcertService {
                     concert.getName(),
                     concert.getLocation(),
                     concert.getPeriod(),
-                    concert.getImageUrl()
+                    concert.getImageUrl(),
+                    concert.getLikes(),
+                    concert.getSearchFriends(),
+                    false
             );
 
             concertResponses.add(concertResponse);
         }
 
-        apiResponse.setSuccess(true);
-        apiResponse.setData(concertResponses);
-
-        return apiResponse;
+        return concertResponses;
     }
 }

@@ -19,4 +19,10 @@ public class ConcertResponse {
     private String period; // 공연 기간
 
     private String imageUrl; // 공연 이미지
+
+    private Long likes;
+
+    private Long searchFriends;
+
+    private Boolean isLike;
 }
