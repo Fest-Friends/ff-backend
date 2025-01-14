@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FriendSearchRepository extends JpaRepository<FriendSearch, Long> {
     boolean existsByConcertAndUser(Concert concert, User user);
+    FriendSearch findByConcertAndUser(Concert concert, User user);
 }

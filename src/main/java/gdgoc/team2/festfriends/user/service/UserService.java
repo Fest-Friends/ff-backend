@@ -32,4 +32,17 @@ public class UserService {
 
         friendSearchRepository.save(friendSearch);
     }
+
+    public void cancelFindFriends(Long concertId, User user) {
+
+        Concert concert = concertRepository.findById(concertId).orElse(null);
+
+        FriendSearch friendSearch = friendSearchRepository.findByConcertAndUser(concert, user);
+
+        if (friendSearch == null) {
+            throw new IllegalStateException("해당 공연에 대한 친구 찾기 정보가 등록되지 않았습니다.");
+        }
+
+        friendSearchRepository.delete(friendSearch);
+    }
 }

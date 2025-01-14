@@ -31,4 +31,22 @@ public class UserController {
                     .build();
         }
     }
+
+    @DeleteMapping("/concert/{concertId}/find-friends/cancel")
+    public ApiResponse<Void> cancelFindFriends(@PathVariable Long concertId, @SessionAttribute("currentUser") User user) {
+        try{
+            userService.cancelFindFriends(concertId, user);
+            return ApiResponse.<Void>builder()
+                    .success(true)
+                    .message(null)
+                    .data(null)
+                    .build();
+        }catch (Exception e){
+            return ApiResponse.<Void>builder()
+                    .success(false)
+                    .message(null)
+                    .data(null)
+                    .build();
+        }
+    }
 }
