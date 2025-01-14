@@ -1,52 +1,35 @@
 package gdgoc.team2.festfriends.user.service;
 
-import gdgoc.team2.festfriends.user.dto.LoginRequest;
-import gdgoc.team2.festfriends.user.dto.SignupRequest;
+import gdgoc.team2.festfriends.concert.entity.Concert;
+import gdgoc.team2.festfriends.concert.entity.FriendSearch;
+import gdgoc.team2.festfriends.concert.repository.ConcertRepository;
+import gdgoc.team2.festfriends.concert.repository.FriendSearchRepository;
 import gdgoc.team2.festfriends.user.entity.User;
-import gdgoc.team2.festfriends.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final FriendSearchRepository friendSearchRepository;
+    private final ConcertRepository concertRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    public void startFindFriends(Long concertId, User user) {
 
-    public void signup(SignupRequest signupRequest) {
-        if(userRepository.existsByUsername(signupRequest.getUsername())) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        Concert concert = concertRepository.findById(concertId).orElse(null);
+
+        boolean alreadyExists = friendSearchRepository.existsByConcertAndUser(concert, user);
+
+        if (alreadyExists) {
+            throw new IllegalStateException("이미 해당 공연에 대한 친구 찾기 정보가 등록되어 있습니다.");
         }
 
-        if(!signupRequest.getPassword().equals(signupRequest.getRetypePassword())){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-
-        User user = User.builder()
-                .username(signupRequest.getUsername())
-                .password(signupRequest.getPassword())
+        FriendSearch friendSearch = FriendSearch.builder()
+                .concert(concert)
+                .user(user)
                 .build();
 
-        userRepository.save(user);
-    }
-
-    public void login(LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
-
-        User user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-
-        // 2. 비밀번호 검증
-        if (!loginRequest.getPassword().equals(user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호를 다시 확인해주세요.");
-        }
-
-        HttpSession httpSession = httpServletRequest.getSession();
-        httpSession.setAttribute("userId", user.getId());
+        friendSearchRepository.save(friendSearch);
     }
 }

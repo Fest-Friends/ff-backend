@@ -4,29 +4,28 @@ package gdgoc.team2.festfriends.user.controller;
 import gdgoc.team2.festfriends.global.dto.ApiResponse;
 import gdgoc.team2.festfriends.user.dto.LoginRequest;
 import gdgoc.team2.festfriends.user.dto.SignupRequest;
-import gdgoc.team2.festfriends.user.service.UserService;
+import gdgoc.team2.festfriends.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserAuthController {
 
-    private final UserService userService;
+    private final UserAuthService userAuthService;
 
     @Autowired
-    public UserAuthController(UserService userService) {
-        this.userService = userService;
+    public UserAuthController(UserAuthService userAuthService) {
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping("/signup")
     public ApiResponse<Void> signup(SignupRequest signupRequest) {
         try{
-            userService.signup(signupRequest);
+            userAuthService.signup(signupRequest);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
@@ -44,7 +43,7 @@ public class UserAuthController {
     @PostMapping("/login")
     public ApiResponse<Void> login(LoginRequest loginRequest, HttpServletRequest httpServletRequest){
         try{
-            userService.login(loginRequest, httpServletRequest);
+            userAuthService.login(loginRequest, httpServletRequest);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
