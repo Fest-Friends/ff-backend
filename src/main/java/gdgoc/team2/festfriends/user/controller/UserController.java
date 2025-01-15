@@ -1,6 +1,7 @@
 package gdgoc.team2.festfriends.user.controller;
 
 import gdgoc.team2.festfriends.global.dto.ApiResponse;
+import gdgoc.team2.festfriends.user.dto.UserInfo;
 import gdgoc.team2.festfriends.user.entity.User;
 import gdgoc.team2.festfriends.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,24 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/{userId}")
+    public ApiResponse<UserInfo> getUserInfo(@PathVariable Long userId) {
+        try {
+            UserInfo userInfo = userService.getUserInfo(userId);
+            return ApiResponse.<UserInfo>builder()
+                    .success(true)
+                    .message(null)
+                    .data(userInfo)
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<UserInfo>builder()
+                    .success(true)
+                    .message(null)
+                    .data(null)
+                    .build();
+        }
+    }
+
     @GetMapping("/concert/{concertId}/find-friends")
     public ApiResponse<List<User>> getFindFriends(
             @PathVariable Long concertId,
@@ -30,7 +49,7 @@ public class UserController {
                     .message(null)
                     .data(userList)
                     .build();
-        }catch(Exception e){
+        } catch (Exception e) {
             return ApiResponse.<List<User>>builder()
                     .success(false)
                     .message(null)
@@ -42,14 +61,14 @@ public class UserController {
 
     @PostMapping("/concert/{concertId}/find-friends/start")
     public ApiResponse<Void> startFindFriends(@PathVariable Long concertId, @SessionAttribute("currentUser") User user) {
-        try{
+        try {
             userService.startFindFriends(concertId, user);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
                     .data(null)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResponse.<Void>builder()
                     .success(false)
                     .message(null)
@@ -60,14 +79,14 @@ public class UserController {
 
     @DeleteMapping("/concert/{concertId}/find-friends/cancel")
     public ApiResponse<Void> cancelFindFriends(@PathVariable Long concertId, @SessionAttribute("currentUser") User user) {
-        try{
+        try {
             userService.cancelFindFriends(concertId, user);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
                     .data(null)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResponse.<Void>builder()
                     .success(false)
                     .message(null)

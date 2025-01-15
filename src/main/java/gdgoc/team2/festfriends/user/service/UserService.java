@@ -4,7 +4,9 @@ import gdgoc.team2.festfriends.concert.entity.Concert;
 import gdgoc.team2.festfriends.concert.entity.FriendSearch;
 import gdgoc.team2.festfriends.concert.repository.ConcertRepository;
 import gdgoc.team2.festfriends.concert.repository.FriendSearchRepository;
+import gdgoc.team2.festfriends.user.dto.UserInfo;
 import gdgoc.team2.festfriends.user.entity.User;
+import gdgoc.team2.festfriends.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,13 @@ public class UserService {
 
     private final FriendSearchRepository friendSearchRepository;
     private final ConcertRepository concertRepository;
+    private final UserRepository userRepository;
+
+    public UserInfo getUserInfo(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. user_id: " + userId));
+        return new UserInfo(user);
+    }
 
     public List<User> getFindFriendList(Long concertId, String gender, String listeningType, String volumeSort) {
 
