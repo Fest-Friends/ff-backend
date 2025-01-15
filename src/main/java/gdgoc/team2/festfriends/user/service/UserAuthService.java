@@ -46,7 +46,8 @@ public class UserAuthService {
             throw new IllegalArgumentException("비밀번호를 다시 확인해주세요.");
         }
 
+
         HttpSession httpSession = httpServletRequest.getSession();
-        httpSession.setAttribute("user", user);
+        httpSession.setAttribute("userId", user.getId());
     }
 }
