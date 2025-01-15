@@ -22,6 +22,8 @@ public class User {
 
     private String password; // 로그인 비밀번호
 
+    private String gender;
+
     private String nickname; // 서비스 내의 이름
 
     private String mbti;
@@ -32,5 +34,5 @@ public class User {
 
     private String introduction; // 한줄소개
 
-    private String volume; // 활동점수
+    private int volume; // 활동점수
 }
