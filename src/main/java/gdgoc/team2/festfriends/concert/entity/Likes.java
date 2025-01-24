@@ -4,7 +4,7 @@ import gdgoc.team2.festfriends.user.entity.User;
 import jakarta.persistence.*;
 
 @Entity
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

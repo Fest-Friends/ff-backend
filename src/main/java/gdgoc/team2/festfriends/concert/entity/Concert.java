@@ -28,6 +28,8 @@ public class Concert {
 
     private String imageUrl; // 공연 이미지
 
+    private String category;
+
     private Long likes;
 
     private Long searchFriends;
