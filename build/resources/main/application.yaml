@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: fest_friends
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: test
+    password: 1234
+    url: jdbc:mysql://localhost:3306/fest_friends?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    open-in-view: false
