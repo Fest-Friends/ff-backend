@@ -1,6 +1,5 @@
 package gdgoc.team2.festfriends.global.dto;
 
-
 import lombok.*;
 
 @Setter

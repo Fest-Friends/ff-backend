@@ -20,11 +20,11 @@ public class UserAuthService {
     }
 
     public void signup(SignupRequest signupRequest) {
-        if(userRepository.existsByUsername(signupRequest.getUsername())) {
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
 
-        if(!signupRequest.getPassword().equals(signupRequest.getRetypePassword())){
+        if (!signupRequest.getPassword().equals(signupRequest.getRetypePassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
@@ -41,13 +41,13 @@ public class UserAuthService {
         User user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
 
-        // 2. 비밀번호 검증
         if (!loginRequest.getPassword().equals(user.getPassword())) {
             throw new IllegalArgumentException("비밀번호를 다시 확인해주세요.");
         }
 
-
+        System.out.println("세션이 생성되었습니다.");
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.setAttribute("userId", user.getId());
+        httpSession.setAttribute("nickname", user.getNickname());
     }
 }

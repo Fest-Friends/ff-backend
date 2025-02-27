@@ -8,6 +8,7 @@ import gdgoc.team2.festfriends.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,15 +24,15 @@ public class UserAuthController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<Void> signup(SignupRequest signupRequest) {
-        try{
+    public ApiResponse<Void> signup(@RequestBody SignupRequest signupRequest) {
+        try {
             userAuthService.signup(signupRequest);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
                     .data(null)
                     .build();
-        }catch(Exception e){
+        } catch (Exception e) {
             return ApiResponse.<Void>builder()
                     .success(false)
                     .message(e.getMessage())
@@ -41,15 +42,15 @@ public class UserAuthController {
     }
 
     @PostMapping("/login")
-    public ApiResponse<Void> login(LoginRequest loginRequest, HttpServletRequest httpServletRequest){
-        try{
+    public ApiResponse<Void> login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
+        try {
             userAuthService.login(loginRequest, httpServletRequest);
             return ApiResponse.<Void>builder()
                     .success(true)
                     .message(null)
                     .data(null)
                     .build();
-        }catch(Exception e){
+        } catch (Exception e) {
             return ApiResponse.<Void>builder()
                     .success(false)
                     .message(e.getMessage())
